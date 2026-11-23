@@ -73,6 +73,14 @@ section{padding:84px 0}
 .item .tag{display:block;font-size:14px;font-weight:600;margin-bottom:4px}
 .tag.save{color:var(--gain)}.tag.earn{color:var(--sea2)}
 .bonus{margin-top:28px;padding:20px 24px;background:var(--mist);border-radius:12px;color:var(--ink);font-size:17px}
+.plans .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;margin-top:28px}
+.card{background:#fff;border:1px solid #D5DEE6;border-radius:14px;padding:28px}
+.card.feat{border:2px solid var(--sea2)}
+.card h3{font-size:24px;margin-bottom:6px}
+.card .pp b{font-size:40px}.card .pp span{margin-left:8px;color:var(--muted)}
+.card p{color:var(--muted);margin:10px 0}
+.card ul{margin:14px 0 22px 20px}.card li{margin-bottom:8px}
+.plans .small{margin-top:18px;color:var(--muted);font-size:15px}
 /* guarantee band */
 .band{background:var(--sea);color:#E8F0F5}
 .band .wrap{display:grid;grid-template-columns:auto 1fr;gap:40px;align-items:center}
@@ -136,6 +144,7 @@ ICON = {
 def ic(k): return f'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{ICON[k]}</svg>'
 
 def page(T, lang, root):
+    plans_html = "".join(f'<div class="card{" feat" if d["feat"] else ""}"><h3>{d["n"]}</h3><div class="pp"><b>{d["pr"]}</b><span>{T["permonth"]}</span></div><p>{d["d"]}</p><ul>{"".join("<li>"+x+"</li>" for x in d["pts"])}</ul><a class="btn" href="#free">{T["plans_cta"]}</a></div>' for d in T['plans'])
     items = "".join(f'<div class="item"><div class="ic {c}">{ic(i)}</div><div><span class="tag {c}">{tg}</span><h3>{h}</h3><p>{p}</p></div></div>' for c,i,tg,h,p in T['items'])
     rows = T['rows']
     steps = "".join(f'<div class="step"><div class="n">{n}</div><h3>{h}</h3><p>{p}</p></div>' for n,(h,p) in enumerate(T['steps'],1))
@@ -163,7 +172,7 @@ def page(T, lang, root):
 <div class="hero"><div class="wrap">
 <div>
 <h1>{T['h1']}</h1>
-<div class="price"><b>€79</b><span>{T['permonth']}</span></div>
+<div class="price"><b>€150</b><span>{T['permonth']}</span></div>
 <p class="sub">{T['sub']}</p>
 <div class="actions"><a class="btn" href="#free">{T['cta']}</a><a class="btn quiet" href="#included">{T['cta2']}</a></div>
 <p class="promise">{SHIELD}<span>{T['promise']}</span></p>
@@ -184,6 +193,12 @@ def page(T, lang, root):
 <div class="intro"><h2>{T['h2a']}</h2><p>{T['pa']}</p></div>
 <div class="list">{items}</div>
 <p class="bonus">{T['bonus']}</p>
+</div></section>
+
+<section id="plans" class="plans"><div class="wrap">
+<div class="intro"><h2>{T['plans_h']}</h2><p>{T['plans_p']}</p></div>
+<div class="cards">{plans_html}</div>
+<p class="small">{T['plans_note']}</p>
 </div></section>
 
 <section id="guarantee" class="band"><div class="wrap">
@@ -224,14 +239,14 @@ def page(T, lang, root):
 </body>
 </html>'''
 
-EL = dict(title="Kerdos – Φροντίδα της παρουσίας σας στο Google, €79/μήνα",
- desc="Λιγότερα χαμένα χρήματα στις διαφημίσεις Google, περισσότερα τηλέφωνα από τους Χάρτες. €79 τον μήνα, χωρίς δέσμευση, με εγγύηση αποτελέσματος τον πρώτο μήνα.",
+EL = dict(title="Kerdos – Φροντίδα της παρουσίας σας στο Google, €150/μήνα",
+ desc="Λιγότερα χαμένα χρήματα στις διαφημίσεις Google, περισσότερα τηλέφωνα από τους Χάρτες. €150 τον μήνα, χωρίς δέσμευση, με εγγύηση αποτελέσματος τον πρώτο μήνα.",
  navl="Μενού", n1="Τι περιλαμβάνει", n2="Εγγύηση", n3="Ερωτήσεις", other="English", otherurl="/", otherlang="en", start="Δωρεάν αναφορά",
  h1="Φροντίζουμε την παρουσία σας στο Google, κάθε μήνα.", permonth="τον μήνα",
  sub="Λιγότερα χαμένα χρήματα στις διαφημίσεις, περισσότερα τηλέφωνα από τους Χάρτες Google και μια ιστοσελίδα που δουλεύει σωστά. Εσείς ασχολείστε με τους πελάτες σας.",
  cta="Πάρτε τη δωρεάν αναφορά σας", cta2="Δείτε τι περιλαμβάνει",
  promise="Εγγύηση πρώτου μήνα: αν η πρώτη αναφορά δεν δείχνει εξοικονόμηση και βελτίωση, σας επιστρέφουμε τα χρήματα. Ακύρωση όποτε θέλετε.",
- stlabel="Παράδειγμα μηνιαίας αναφοράς", sthead="Ο μήνας σας σε αριθμούς", stsmall="Παράδειγμα", feev="−€79", netv="+€221",
+ stlabel="Παράδειγμα μηνιαίας αναφοράς", sthead="Ο μήνας σας σε αριθμούς", stsmall="Παράδειγμα", feev="−€150", netv="+€150",
  rows=[("Εξοικονόμηση στις διαφημίσεις Google","+€300"),("Νέες κριτικές Google","+9"),("Κλήσεις από τους Χάρτες Google","+23%"),("Νέες σελίδες στο Google","+1")],
  fee="Συνδρομή Kerdos", net="Σας μένουν μετά τη συνδρομή", stnote="Ενδεικτικά νούμερα. Η δική σας αναφορά δείχνει τα πραγματικά σας αποτελέσματα, κάθε μήνα.",
  h2a="Οκτώ πράγματα που κάνουμε για εσάς κάθε μήνα", pa="Τα αναλαμβάνουμε όλα. Εσείς βλέπετε τα αποτελέσματα στη μηνιαία αναφορά.",
@@ -243,36 +258,40 @@ EL = dict(title="Kerdos – Φροντίδα της παρουσίας σας σ
   ("earn","page","Περισσότεροι πελάτες","Μία νέα σελίδα στο Google κάθε μήνα","Για μια υπηρεσία και περιοχή που σας ενδιαφέρει, ώστε να σας βρίσκουν δωρεάν από τις αναζητήσεις."),
   ("save","eye","Ένα βήμα μπροστά","Παρακολούθηση ανταγωνισμού","Τι διαφημίζουν οι κοντινοί σας ανταγωνιστές και πώς συγκρίνονται οι κριτικές τους."),
   ("earn","ai","Νέο","Να σας προτείνει η τεχνητή νοημοσύνη","Όλο και περισσότεροι ρωτούν το ChatGPT, το Claude, το Gemini ή τις απαντήσεις AI της Google ποιον να καλέσουν. Κάνουμε την επιχείρησή σας εύκολη να βρεθεί και να προταθεί: σαφείς σελίδες υπηρεσιών και περιοχών, ίδια σωστά στοιχεία σε χάρτες και καταλόγους, και τίποτα στην ιστοσελίδα σας που να εμποδίζει τα εργαλεία αναζήτησής τους.")],
- bonus="Επιπλέον: 8 έτοιμες αναρτήσεις τον μήνα για Facebook και Instagram, και μια σύντομη αναφορά στο τέλος κάθε μήνα με τα χρήματα που γλιτώσατε και τι βελτιώθηκε.",
+ plans_h="Δύο τρόποι να συνεργαστούμε", plans_p="Ξεκινήστε με τη δωρεάν αναφορά. Μετά διαλέγετε το πακέτο που σας ταιριάζει. Χωρίς συμβόλαιο, ακύρωση όποτε θέλετε.",
+ plans=[dict(n="Growth Plan", pr="€150", d="Τα οκτώ παραπάνω, γίνονται για εσάς κάθε μήνα, με μηνιαία αναφορά αποτελεσμάτων.", pts=["Έλεγχος κόστους Google Ads και αναφορά χρημάτων που γλιτώσατε","Προφίλ Χαρτών Google, κριτικές και φροντίδα ιστοσελίδας","Μία νέα σελίδα στο Google τον μήνα","Να σας βρίσκουν οι βοηθοί τεχνητής νοημοσύνης","Εγγύηση πρώτου μήνα"], feat=False),
+  dict(n="Growth + Content", pr="€250", d="Όλα του Growth Plan, και η επιχείρησή σας ορατή και ενεργή στα social media.", pts=["Όλα του Growth Plan","12 έτοιμες αναρτήσεις τον μήνα για Facebook και Instagram, με εικόνες","Μηνιαίο πλάνο περιεχομένου: τι θα αναρτήσετε, πότε, και εποχικές προσφορές","Ένα σύντομο άρθρο τον μήνα για την ιστοσελίδα σας","Αναρτώνται για εσάς αν μας προσθέσετε στη σελίδα σας, αλλιώς τις παίρνετε έτοιμες"], feat=True)],
+ plans_cta="Ξεκινήστε με τη δωρεάν αναφορά", plans_note="Η ίδια εγγύηση πρώτου μήνα ισχύει και για τα δύο πακέτα.",
+ bonus="Επιπλέον: μια σύντομη αναφορά στο τέλος κάθε μήνα με τα χρήματα που γλιτώσατε και τι βελτιώθηκε.",
  gh="Δεν είδατε αποτελέσματα τον πρώτο μήνα; Σας επιστρέφουμε τα χρήματα.",
  gp="Στο τέλος του πρώτου μήνα λαμβάνετε την αναφορά σας. Αν δεν δείχνει και εξοικονόμηση χρημάτων και μετρήσιμη βελτίωση για την επιχείρησή σας, σας επιστρέφουμε ολόκληρο το ποσό του πρώτου μήνα.",
  gp2="Βελτίωση σημαίνει περισσότερες κριτικές, περισσότερες κλήσεις ή αιτήματα οδηγιών από τους Χάρτες, ή περισσότερες επισκέψεις στην ιστοσελίδα σε σχέση με τον μήνα πριν ξεκινήσουμε.",
  sh="Πώς λειτουργεί", sp="Πρώτα βλέπετε τι μπορούμε να κάνουμε για εσάς. Μετά αποφασίζετε.",
  steps=[("Ζητάτε τη δωρεάν αναφορά","Συμπληρώνετε 4 στοιχεία. Χωρίς πληρωμή, χωρίς κάρτα, χωρίς πρόσβαση στους λογαριασμούς σας."),
   ("Βλέπετε τι βρήκαμε","Μέσα σε 48 ώρες λαμβάνετε μια αναφορά για την επιχείρησή σας, με ένα εύρημα αναλυτικά και τι άλλο εντοπίσαμε."),
-  ("Αποφασίζετε εσείς","Αν σας αξίζει, ξεκινάτε με €79 τον μήνα και αναλαμβάνουμε τα υπόλοιπα. Αν όχι, δεν σας οφείλετε τίποτα.")],
+  ("Αποφασίζετε εσείς","Αν σας αξίζει, ξεκινάτε με €150 τον μήνα και αναλαμβάνουμε τα υπόλοιπα. Αν όχι, δεν σας οφείλετε τίποτα.")],
  ch="Δοκιμάστε μας δωρεάν", cp="Συμπληρώστε τα στοιχεία σας και μέσα σε 48 ώρες σας στέλνουμε μια αναφορά για τη δική σας επιχείρηση.",
  ticks=["Ένα πραγματικό εύρημα, αναλυτικά, που μπορείτε να διορθώσετε αμέσως","Τι άλλο εντοπίσαμε που σας κοστίζει χρήματα ή πελάτες","Χωρίς πληρωμή, χωρίς κάρτα, χωρίς πρόσβαση στους λογαριασμούς σας"],
  cp2="Μία δωρεάν αναφορά ανά επιχείρηση.",
  form=dict(name="request-el", n="Όνομα", w="Ιστοσελίδα", b="Περίπου πόσα ξοδεύετε τον μήνα στο Google Ads;", bp="π.χ. 500€", send="Θέλω τη δωρεάν αναφορά"),
  faq=[("Είναι πραγματικά δωρεάν η αναφορά;","Ναι. Δεν ζητάμε κάρτα ούτε πρόσβαση. Τη στέλνουμε μία φορά ανά επιχείρηση και αποφασίζετε εσείς αν θέλετε να συνεχίσουμε."),("Χρειάζεται να δώσω κωδικούς;","Όχι. Μας προσθέτετε ως χρήστη στο Google Ads και ως διαχειριστή στο Προφίλ Επιχείρησης Google με πρόσκληση. Μπορείτε να μας αφαιρέσετε όποτε θέλετε."),
-  ("Πότε πληρώνω;","Μόνο αν αποφασίσετε να ξεκινήσουμε, αφού έχετε δει τη δωρεάν αναφορά. Η συνδρομή είναι €79 τον μήνα, χωρίς συμβόλαιο, και την ακυρώνετε με ένα κλικ."),
+  ("Πότε πληρώνω;","Μόνο αν αποφασίσετε να ξεκινήσουμε, αφού έχετε δει τη δωρεάν αναφορά. Το Growth Plan κοστίζει €150 τον μήνα, ή €250 με το πακέτο Content. Χωρίς συμβόλαιο, και την ακυρώνετε με ένα κλικ."),
   ("Τι ακριβώς εγγυάστε;","Ότι η πρώτη μηνιαία αναφορά θα δείχνει και εξοικονόμηση στις διαφημίσεις σε ευρώ και μετρήσιμη βελτίωση (κριτικές, κλήσεις από Χάρτες ή επισκέψεις). Αν λείπει κάτι από τα δύο, επιστρέφουμε όλο το ποσό του πρώτου μήνα."),
   ("Κι αν δεν τρέχω διαφημίσεις Google;","Όλα τα υπόλοιπα ισχύουν κανονικά. Η εγγύηση βασίζεται τότε στις βελτιώσεις στο προφίλ και στην ιστοσελίδα σας."),
   ("Εγγυάστε πρώτη θέση στο Google;","Κανείς δεν μπορεί να το υποσχεθεί με ειλικρίνεια. Εγγυόμαστε ότι η δουλειά γίνεται κάθε μήνα και σας δείχνουμε τα αποτελέσματα."),
   ("Μπορείτε να κάνετε το ChatGPT να προτείνει την επιχείρησή μου;","Κανείς δεν μπορεί να εγγυηθεί τι θα πει ένας βοηθός AI. Αυτό που κάνουμε είναι να διορθώνουμε όσα χρησιμοποιεί: μια ιστοσελίδα που εξηγεί καθαρά τι κάνετε και πού, ίδια σωστά στοιχεία σε Google, Bing, χάρτες και καταλόγους, πρόσφατες κριτικές, και πρόσβαση των εργαλείων αναζήτησής τους στη σελίδα σας. Κάθε μήνα ελέγχουμε αν εμφανίζεστε και σας λέμε τι άλλαξε."),
   ("Ποιος κάνει τη δουλειά;","Η Kerdos είναι υπηρεσία της SGD Ventures. Δουλεύουμε με δικά μας εργαλεία ανάλυσης που βασίζονται σε AI, υπό ανθρώπινη επίβλεψη, και κάθε αλλαγή καταγράφεται στη μηνιαία σας αναφορά.")],
- fh="Δείτε πρώτα τι θα βρίσκαμε για εσάς.", fp="Η αναφορά είναι δωρεάν. Αν μετά θελήσετε να συνεχίσουμε, κοστίζει €79 τον μήνα, με επιστροφή χρημάτων αν δεν δείτε αποτελέσματα τον πρώτο μήνα.",
+ fh="Δείτε πρώτα τι θα βρίσκαμε για εσάς.", fp="Η αναφορά είναι δωρεάν. Αν μετά θελήσετε να συνεχίσουμε, κοστίζει €150 τον μήνα, με επιστροφή χρημάτων αν δεν δείτε αποτελέσματα τον πρώτο μήνα.",
  by="υπηρεσία της", notg="Δεν συνδέεται με την Google")
 
-EN = dict(title="Kerdos – Your Google presence, looked after every month. €79/month",
- desc="Less wasted Google Ads money, more calls from Google Maps. €79 a month, cancel any time, with a first-month results guarantee.",
+EN = dict(title="Kerdos – Your Google presence, looked after every month. €150/month",
+ desc="Less wasted Google Ads money, more calls from Google Maps. €150 a month, cancel any time, with a first-month results guarantee.",
  navl="Main", n1="What's included", n2="Guarantee", n3="Questions", other="Ελληνικά", otherurl="/el/", otherlang="el", start="Free report",
  h1="We look after your Google presence, every month.", permonth="per month",
  sub="Less money wasted on ads, more calls from Google Maps, and a website that keeps working. You focus on your customers.",
  cta="Get your free report", cta2="See what's included",
  promise="First-month guarantee: if your first report doesn't show money saved and better results, you get your money back. Cancel any time.",
- stlabel="Example monthly report", sthead="Your month in numbers", stsmall="Example, in your currency", feev="−79", netv="+221",
+ stlabel="Example monthly report", sthead="Your month in numbers", stsmall="Example, in your currency", feev="−150", netv="+150",
  rows=[("Money saved on Google Ads","+300"),("New Google reviews","+9"),("Calls from Google Maps","+23%"),("New pages on Google","+1")],
  fee="Kerdos subscription", net="What you keep after our fee", stnote="Illustrative figures. Your own report shows your real results, every month.",
  h2a="Eight things we do for you every month", pa="We take care of all of it. You see the results in your monthly report.",
@@ -284,26 +303,30 @@ EN = dict(title="Kerdos – Your Google presence, looked after every month. €7
   ("earn","page","More customers","One new Google page a month","For a service and area you want customers from, so people find you through free search."),
   ("save","eye","Stay ahead","Competitor watch","What your nearest competitors advertise and how their reviews compare."),
   ("earn","ai","New","Found by AI assistants","More customers now ask ChatGPT, Claude, Gemini or Google's AI answers who to call. We make your business easy for them to find and recommend: clear service and area pages, consistent details on the directories and maps they read, and nothing on your site blocking their search tools.")],
- bonus="Also included: 8 ready-to-post Facebook and Instagram posts a month, and a short end-of-month report showing the money you saved and what improved.",
+ plans_h="Two ways to work with us", plans_p="Start with the free report. Then pick the plan that fits. No contract, cancel any time.",
+ plans=[dict(n="Growth Plan", pr="€150", d="The eight things above, done for you every month, with a monthly results report.", pts=["Google Ads cost control and money-saved report","Google Maps profile, reviews and website care","One new Google page a month","Found by AI assistants","First-month guarantee"], feat=False),
+  dict(n="Growth + Content", pr="€250", d="Everything in the Growth Plan, plus your business kept visible and active on social media.", pts=["Everything in the Growth Plan","12 ready-to-post Facebook and Instagram posts a month, with matching images","A monthly content plan: what to post, when, and seasonal offers","One short article a month for your website, written for the questions customers ask","Posted for you if you add us to your page, otherwise sent to you ready to paste"], feat=True)],
+ plans_cta="Start with your free report", plans_note="The same first-month guarantee applies to both plans.",
+ bonus="Also included: a short end-of-month report showing the money you saved and what improved.",
  gh="No results in your first month? You get your money back.",
  gp="At the end of your first month you get your report. If it doesn't show both money saved and a measurable improvement for your business, we refund your first month in full.",
  gp2="Improvement means more reviews, more calls or direction requests from Google Maps, or more website visits than the month before we started.",
  sh="How it works", sp="First you see what we can do for you. Then you decide.",
  steps=[("Ask for your free report","Fill in 4 details. No payment, no card, no access to your accounts."),
   ("See what we found","Within 48 hours you get a report on your business: one finding in full, and what else we spotted."),
-  ("You decide","If it's worth it, start for €79 a month and we take care of the rest. If not, you owe nothing.")],
+  ("You decide","If it's worth it, start for €150 a month and we take care of the rest. If not, you owe nothing.")],
  ch="Try us for free", cp="Fill in your details and within 48 hours we send you a report about your own business.",
  ticks=["One real finding, in full, that you can fix right away","What else we spotted that is costing you money or customers","No payment, no card, no access to your accounts"],
  cp2="One free report per business.",
  form=dict(name="request", n="Name", w="Website", b="Roughly how much do you spend on Google Ads per month?", bp="e.g. 500 a month", send="Send me my free report"),
  faq=[("Is the report really free?","Yes. No card and no access needed. We send one per business, and you decide whether you want us to continue."),("Do I need to share passwords?","No. You add us as a user on Google Ads and as a manager on your Google Business Profile, by invitation. You can remove us any time."),
-  ("When do I pay?","Only if you decide to go ahead, after you've seen your free report. It's €79 a month, no contract, cancel with one click."),
+  ("When do I pay?","Only if you decide to go ahead, after you've seen your free report. The Growth Plan is €150 a month, or €250 with the Content package. No contract, cancel with one click."),
   ("What exactly is guaranteed?","That your first monthly report shows both money saved on ads and a measurable improvement (reviews, Maps calls or website visits). If either is missing, we refund your first month in full."),
   ("What if I don't run Google Ads?","Everything else still applies. The guarantee is then based on improvements to your profile and website."),
   ("Do you guarantee first place on Google?","No one can honestly promise that. We guarantee the work gets done every month, and we show you the results."),
   ("Can you make ChatGPT recommend my business?","No one can guarantee what an AI assistant says. What we can do is fix what these assistants rely on: your website explaining clearly what you do and where, the same correct details across Google, Bing, maps and directories, recent reviews, and letting their search tools read your site. Each month we check whether you show up and report what changed."),
   ("Who does the work?","Kerdos is a service of SGD Ventures. We use our own AI-assisted analysis tools under human oversight, and every change is listed in your monthly report.")],
- fh="See what we would find for you first.", fp="The report is free. If you then want us to continue, it's €79 a month, with your money back if you see no results in the first month.",
+ fh="See what we would find for you first.", fp="The report is free. If you then want us to continue, it's €150 a month, with your money back if you see no results in the first month.",
  by="a service of", notg="Not affiliated with Google")
 
 THANKS = '''<!doctype html><html lang="el"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Kerdos – Ευχαριστούμε</title>
