@@ -235,7 +235,7 @@ def page(T, lang, root):
 </main>
 
 <footer><div class="wrap"><span>© 2026 Kerdos, {T['by']} SGD Ventures · <a href="mailto:sam@sgdventures.com">sam@sgdventures.com</a></span><span>{T['notg']}</span></div></footer>
-<elevenlabs-convai agent-id="agent_4201m7w49pgfetsbjp9xje4xqs11"></elevenlabs-convai><script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
+<elevenlabs-convai style="bottom:72px" agent-id="agent_4201m7w49pgfetsbjp9xje4xqs11"></elevenlabs-convai><script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
 </body>
 </html>'''
 
