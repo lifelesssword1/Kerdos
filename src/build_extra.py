@@ -334,7 +334,8 @@ w("el/odigoi/index.html", guide_index())
 
 # ---------------- ENGLISH GUIDES ----------------
 import json as _json
-from guides_en import GUIDES_EN
+from guides_en import GUIDES_EN, TRADES_EN, trade_guide_dict
+GUIDES_EN = GUIDES_EN + [trade_guide_dict(t) for t in TRADES_EN]
 def guide_en(g):
     body = f'<div class="doc"><h1>{g["h1"]}</h1><p class="lede">{g["lede"]}</p>'
     for h, paras, steps in g["sections"]:
