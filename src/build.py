@@ -151,7 +151,7 @@ def page(T, lang, root):
     import json as _j
     _base="https://kerdos.sgdventures.com"
     _url=_base+root
-    _org={"@type":"Organization","@id":_base+"/#org","name":"Kerdos","url":_base+"/","email":"sam@sgdventures.com","parentOrganization":{"@type":"Organization","name":"SGD Ventures"}}
+    _org={"@type":"Organization","@id":_base+"/#org","name":"Kerdos","url":_base+"/","email":"sam@sgdventures.com","sameAs":["https://www.linkedin.com/company/kerdos-sgd"],"parentOrganization":{"@type":"Organization","name":"SGD Ventures"}}
     _offers=[{"@type":"Offer","name":d["n"],"price":d["pr"].replace("€",""),"priceCurrency":"EUR","priceSpecification":{"@type":"UnitPriceSpecification","price":d["pr"].replace("€",""),"priceCurrency":"EUR","billingDuration":1,"unitCode":"MON"}} for d in T["plans"]]
     _graph=[_org,{"@type":"WebSite","@id":_base+"/#site","url":_base+"/","name":"Kerdos","inLanguage":lang,"publisher":{"@id":_base+"/#org"}},
       {"@type":"Service","name":"Kerdos Growth Plan","provider":{"@id":_base+"/#org"},"serviceType":"Google Ads, Google Business Profile and website care","areaServed":["GB","IE","GR"],"offers":_offers},

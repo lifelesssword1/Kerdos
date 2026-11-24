@@ -62,8 +62,8 @@ def shell(lang, title, desc, body, root, path, alt=None):
 
 NAVCTA = {"en":"Free report","el":"Δωρεάν αναφορά"}
 FOOT = {
- "en": '<footer><div class="wrap"><span>© 2026 Kerdos, a service of SGD Ventures · <a href="mailto:sam@sgdventures.com">sam@sgdventures.com</a></span><span><a href="/check.html">Free Google check</a> · <a href="/guides/">Guides</a> · <a href="/refer.html">Recommend a business</a> · <a href="/privacy.html">Privacy</a></span></div></footer>',
- "el": '<footer><div class="wrap"><span>© 2026 Kerdos, υπηρεσία της SGD Ventures · <a href="mailto:sam@sgdventures.com">sam@sgdventures.com</a></span><span><a href="/el/check.html">Δωρεάν έλεγχος</a> · <a href="/el/odigoi/">Οδηγοί</a> · <a href="/el/refer.html">Προτείνετε μια επιχείρηση</a> · <a href="/el/privacy.html">Απόρρητο</a></span></div></footer>',
+ "en": '<footer><div class="wrap"><span>© 2026 Kerdos, a service of SGD Ventures · <a href="mailto:sam@sgdventures.com">sam@sgdventures.com</a></span><span><a href="/check.html">Free Google check</a> · <a href="/guides/">Guides</a> · <a href="/refer.html">Recommend a business</a> · <a href="/privacy.html">Privacy</a> · <a href="https://www.linkedin.com/company/kerdos-sgd" rel="me noopener">LinkedIn</a></span></div></footer>',
+ "el": '<footer><div class="wrap"><span>© 2026 Kerdos, υπηρεσία της SGD Ventures · <a href="mailto:sam@sgdventures.com">sam@sgdventures.com</a></span><span><a href="/el/check.html">Δωρεάν έλεγχος</a> · <a href="/el/odigoi/">Οδηγοί</a> · <a href="/el/refer.html">Προτείνετε μια επιχείρηση</a> · <a href="/el/privacy.html">Απόρρητο</a> · <a href="https://www.linkedin.com/company/kerdos-sgd" rel="me noopener">LinkedIn</a></span></div></footer>',
 }
 
 # ---------------- PRIVACY ----------------
