@@ -62,7 +62,7 @@ def shell(lang, title, desc, body, root, path, alt=None):
 
 NAVCTA = {"en":"Free report","el":"Δωρεάν αναφορά"}
 FOOT = {
- "en": '<footer><div class="wrap"><span>© 2026 Kerdos, a service of SGD Ventures · <a href="mailto:sam@sgdventures.com">sam@sgdventures.com</a></span><span><a href="/check.html">Free Google check</a> · <a href="/refer.html">Recommend a business</a> · <a href="/privacy.html">Privacy</a></span></div></footer>',
+ "en": '<footer><div class="wrap"><span>© 2026 Kerdos, a service of SGD Ventures · <a href="mailto:sam@sgdventures.com">sam@sgdventures.com</a></span><span><a href="/check.html">Free Google check</a> · <a href="/guides/">Guides</a> · <a href="/refer.html">Recommend a business</a> · <a href="/privacy.html">Privacy</a></span></div></footer>',
  "el": '<footer><div class="wrap"><span>© 2026 Kerdos, υπηρεσία της SGD Ventures · <a href="mailto:sam@sgdventures.com">sam@sgdventures.com</a></span><span><a href="/el/check.html">Δωρεάν έλεγχος</a> · <a href="/el/odigoi/">Οδηγοί</a> · <a href="/el/refer.html">Προτείνετε μια επιχείρηση</a> · <a href="/el/privacy.html">Απόρρητο</a></span></div></footer>',
 }
 
@@ -332,6 +332,31 @@ w("refer.html", referral("en")); w("el/refer.html", referral("el"))
 for g in GUIDES: w(f"el/odigoi/{g['slug']}.html", guide(g))
 w("el/odigoi/index.html", guide_index())
 
+# ---------------- ENGLISH GUIDES ----------------
+import json as _json
+from guides_en import GUIDES_EN
+def guide_en(g):
+    body = f'<div class="doc"><h1>{g["h1"]}</h1><p class="lede">{g["lede"]}</p>'
+    for h, paras, steps in g["sections"]:
+        body += f"<h2>{h}</h2>" + "".join(f"<p>{x}</p>" for x in paras)
+        if steps: body += "<ol>" + "".join(f"<li>{x}</li>" for x in steps) + "</ol>"
+    body += "<h2>Questions</h2>" + "".join(f"<h3>{q}</h3><p>{a}</p>" for q,a in g["faq"])
+    body += '<div class="next"><h2 style="margin-top:0">Want us to check your business for you?</h2><p>We send a free short report about your own business: one real finding in full with the fix, and what else we spotted. No card, no access to your accounts.</p><p style="margin-top:16px"><a class="btn" href="/#free">Get your free report</a></p></div></div>'
+    url = f"{BASE}/guides/{g['slug']}.html"
+    ld = {"@context":"https://schema.org","@graph":[
+        {"@type":"Article","headline":g["h1"],"description":g["desc"],"inLanguage":"en","dateModified":"2026-11-24","mainEntityOfPage":url,"author":{"@type":"Organization","name":"Kerdos"},"publisher":{"@type":"Organization","name":"Kerdos","url":BASE+"/"}},
+        {"@type":"FAQPage","mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}} for q,a in g["faq"]]}]}
+    html = shell("en", g["title"] + " | Kerdos", g["desc"], body, "/", f"/guides/{g['slug']}.html")
+    return html.replace("</head>", '<script type="application/ld+json">' + _json.dumps(ld, ensure_ascii=False) + "</script></head>", 1)
+
+def guides_index_en():
+    li = "".join(f'<li><a href="/guides/{g["slug"]}.html">{g["h1"]}</a></li>' for g in GUIDES_EN)
+    body = f'<div class="doc"><h1>Practical guides for local businesses</h1><p class="lede">Plain steps for Google Ads, Google Maps, reviews, your website and being found by AI assistants.</p><ul class="guides">{li}</ul></div>'
+    return shell("en", "Guides for local businesses | Kerdos", "Practical guides on Google Ads waste, Google Business Profile, reviews, website checks and AI assistant visibility.", body, "/", "/guides/")
+
+for g in GUIDES_EN: w(f"guides/{g['slug']}.html", guide_en(g))
+w("guides/index.html", guides_index_en())
+
 # footer links + nav link to checker on the main pages
 for rel, lang in (("index.html","en"),("el/index.html","el")):
     p = os.path.join(OUT, rel); s = open(p).read()
@@ -341,8 +366,8 @@ for rel, lang in (("index.html","en"),("el/index.html","el")):
     s = s.replace("</head>", f'<link rel="canonical" href="{BASE}/{"el/" if lang=="el" else ""}"><link rel="alternate" hreflang="en" href="{BASE}/"><link rel="alternate" hreflang="el" href="{BASE}/el/"></head>', 1)
     open(p,"w").write(s)
 
-urls = ["/","/el/","/check.html","/el/check.html","/refer.html","/el/refer.html","/privacy.html","/el/privacy.html","/el/odigoi/"] + [f"/el/odigoi/{g['slug']}.html" for g in GUIDES]
-w("sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "".join(f"<url><loc>{BASE}{u}</loc><lastmod>2026-11-20</lastmod></url>\n" for u in urls) + "</urlset>\n")
+urls = ["/","/el/","/check.html","/el/check.html","/refer.html","/el/refer.html","/privacy.html","/el/privacy.html","/el/odigoi/"] + [f"/el/odigoi/{g['slug']}.html" for g in GUIDES] + ["/guides/"] + [f"/guides/{g['slug']}.html" for g in GUIDES_EN]
+w("sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "".join(f"<url><loc>{BASE}{u}</loc><lastmod>2026-11-24</lastmod></url>\n" for u in urls) + "</urlset>\n")
 w("robots.txt", f"User-agent: *\nAllow: /\nSitemap: {BASE}/sitemap.xml\n")
 import os as _os
 w("llms.txt", open(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)),"llms.txt"),encoding="utf-8").read())
