@@ -148,6 +148,16 @@ def page(T, lang, root):
     items = "".join(f'<div class="item"><div class="ic {c}">{ic(i)}</div><div><span class="tag {c}">{tg}</span><h3>{h}</h3><p>{p}</p></div></div>' for c,i,tg,h,p in T['items'])
     rows = T['rows']
     steps = "".join(f'<div class="step"><div class="n">{n}</div><h3>{h}</h3><p>{p}</p></div>' for n,(h,p) in enumerate(T['steps'],1))
+    import json as _j
+    _base="https://kerdos.sgdventures.com"
+    _url=_base+root
+    _org={"@type":"Organization","@id":_base+"/#org","name":"Kerdos","url":_base+"/","email":"sam@sgdventures.com","parentOrganization":{"@type":"Organization","name":"SGD Ventures"}}
+    _offers=[{"@type":"Offer","name":d["n"],"price":d["pr"].replace("€",""),"priceCurrency":"EUR","priceSpecification":{"@type":"UnitPriceSpecification","price":d["pr"].replace("€",""),"priceCurrency":"EUR","billingDuration":1,"unitCode":"MON"}} for d in T["plans"]]
+    _graph=[_org,{"@type":"WebSite","@id":_base+"/#site","url":_base+"/","name":"Kerdos","inLanguage":lang,"publisher":{"@id":_base+"/#org"}},
+      {"@type":"Service","name":"Kerdos Growth Plan","provider":{"@id":_base+"/#org"},"serviceType":"Google Ads, Google Business Profile and website care","areaServed":["GB","IE","GR"],"offers":_offers},
+      {"@type":"FAQPage","mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}} for q,a in T["faq"]]}]
+    ldjson=_j.dumps({"@context":"https://schema.org","@graph":_graph},ensure_ascii=False)
+    ogtags=f'<meta property="og:type" content="website"><meta property="og:site_name" content="Kerdos"><meta property="og:title" content="{T["title"]}"><meta property="og:description" content="{T["desc"]}"><meta property="og:url" content="{_url}"><meta name="twitter:card" content="summary">'
     faq = "".join(f'<details><summary>{q}</summary><p>{a}</p></details>' for q,a in T['faq'])
     F = T['form']
     return f'''<!doctype html>
@@ -160,6 +170,8 @@ def page(T, lang, root):
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Commissioner:wght@400;500;600;700&family=Literata:opsz,wght@7..72,500;7..72,600&display=swap" rel="stylesheet">
+{ogtags}
+<script type="application/ld+json">{ldjson}</script>
 <style>{CSS}</style>
 </head>
 <body>

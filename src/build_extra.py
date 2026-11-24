@@ -344,4 +344,6 @@ for rel, lang in (("index.html","en"),("el/index.html","el")):
 urls = ["/","/el/","/check.html","/el/check.html","/refer.html","/el/refer.html","/privacy.html","/el/privacy.html","/el/odigoi/"] + [f"/el/odigoi/{g['slug']}.html" for g in GUIDES]
 w("sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "".join(f"<url><loc>{BASE}{u}</loc><lastmod>2026-11-20</lastmod></url>\n" for u in urls) + "</urlset>\n")
 w("robots.txt", f"User-agent: *\nAllow: /\nSitemap: {BASE}/sitemap.xml\n")
+import os as _os
+w("llms.txt", open(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)),"llms.txt"),encoding="utf-8").read())
 print("extra built:", len(urls), "urls")
