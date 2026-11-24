@@ -371,4 +371,5 @@ w("sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://
 w("robots.txt", f"User-agent: *\nAllow: /\nSitemap: {BASE}/sitemap.xml\n")
 import os as _os
 w("llms.txt", open(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)),"llms.txt"),encoding="utf-8").read())
+w("googlea4b2d98958aa806f.html","google-site-verification: googlea4b2d98958aa806f.html")
 print("extra built:", len(urls), "urls")
